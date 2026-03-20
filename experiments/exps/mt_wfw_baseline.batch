@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+#SBATCH --job-name=mt-wfw-comet
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --account=tlippin1
+# #SBATCH --partition=cpu
+#SBATCH --gpus-per-node=1
+#SBATCH --partition=l40s
+#SBATCH --exclude=l06 # L40s on DSAI
+#SBATCH --mem=64G
+#SBATCH --hint=multithread
+#SBATCH --time=01:00:00
+#SBATCH --array=0-9 # number of experiments = num_languages * num_exp_ids
+#SBATCH --output=slurm_logs_exps/mt_wfw_baseline/%a.out
+#SBATCH --error=slurm_logs_exps/mt_wfw_baseline/%a.out
+#SBATCH --dependency=afterok:1019494
+
+echo "### Running $SLURM_JOB_NAME ###"
+
+cd ${SLURM_SUBMIT_DIR}
+
+echo "HOSTNAME: $(hostname)"
+
+module purge
+module load conda
+source /home/$USER/.bashrc
+. "/home/nbafna1/miniconda3/etc/profile.d/conda.sh" && conda deactivate && conda activate genspace
+
+set -x
+
+HOME_DIR="/weka/home/nbafna1/projects/llm_language_learning"
+cd ${HOME_DIR}
+
+only_eval=True
+task_name="mtwmtpp"
+num_examples=100
+model_key="gpt-5.1"
+exp_id="W0"
+lexicon="panlex"
+
+languages=("fra_Latn" "spa_Latn" "hin_Deva" "mar_Deva" "deu_Latn" "tur_Latn" "vie_Latn" "tel_Telu" "ces_Latn" "pol_Latn")
+num_languages=${#languages[@]}
+language_index=${SLURM_ARRAY_TASK_ID}
+language=${languages[$language_index]}
+
+for direction in comprehension generation; do
+  output_dir_all="${HOME_DIR}/mt_outputs/lang_info_${task_name}/${model_key}_dir-${direction}_samples-${num_examples}"
+  mkdir -p ${output_dir_all}
+
+  exp_name="lang-${language}_ps-lang_info_exp-${exp_id}"
+  output_file="${output_dir_all}/${exp_name}/output.json"
+  results_dir="${output_dir_all}/${exp_name}/results"
+  mkdir -p ${results_dir}
+
+  echo "--------------------------------"
+  echo "Running: language=${language} direction=${direction} exp_id=${exp_id}"
+  echo "Output file: ${output_file}"
+  echo "Results directory: ${results_dir}"
+  echo "--------------------------------"
+
+  python ${HOME_DIR}/experiments/pipeline_word_for_word.py \
+    --language="${language}" \
+    --task_name="${task_name}" \
+    --direction="${direction}" \
+    --num_examples="${num_examples}" \
+    --lexicon="${lexicon}" \
+    --output_file="${output_file}" \
+    --results_dir="${results_dir}" \
+    --only_eval="${only_eval}" \
+    --evaluate_comet=True \
+    --evaluate_gemba=False \
+    --evaluate_llm_judge=False
+done
+
+echo "Done: language=${language} (both directions)"

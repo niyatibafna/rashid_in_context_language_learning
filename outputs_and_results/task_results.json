@@ -1,0 +1,215 @@
+{
+  "mmlu-prox": {
+    "B0": {
+      "ces_Latn": 0.62,
+      "deu_Latn": 0.595,
+      "fra_Latn": 0.615,
+      "hin_Deva": 0.585,
+      "mar_Deva": 0.595,
+      "spa_Latn": 0.645,
+      "tel_Telu": 0.59,
+      "vie_Latn": 0.605
+    },
+    "E0": {
+      "ces_Latn": 0.205,
+      "deu_Latn": 0.22,
+      "fra_Latn": 0.215,
+      "hin_Deva": 0.195,
+      "mar_Deva": 0.26,
+      "spa_Latn": 0.225,
+      "tel_Telu": 0.23,
+      "vie_Latn": 0.195
+    },
+    "E1": {
+      "ces_Latn": 0.19,
+      "deu_Latn": 0.2,
+      "fra_Latn": 0.22,
+      "hin_Deva": 0.2,
+      "mar_Deva": 0.24,
+      "spa_Latn": 0.245,
+      "tel_Telu": 0.205,
+      "vie_Latn": 0.21
+    },
+    "E1a": {
+      "ces_Latn": 0.155,
+      "deu_Latn": 0.185,
+      "fra_Latn": 0.235,
+      "hin_Deva": 0.225,
+      "mar_Deva": 0.235,
+      "spa_Latn": 0.195,
+      "tel_Telu": 0.23,
+      "vie_Latn": 0.195
+    },
+    "E2": {
+      "ces_Latn": 0.205,
+      "deu_Latn": 0.24,
+      "fra_Latn": 0.195,
+      "hin_Deva": 0.25,
+      "mar_Deva": 0.225,
+      "spa_Latn": 0.225,
+      "tel_Telu": 0.19,
+      "vie_Latn": 0.215
+    },
+    "E2a": {
+      "ces_Latn": 0.215,
+      "deu_Latn": 0.215,
+      "fra_Latn": 0.225,
+      "hin_Deva": 0.205,
+      "mar_Deva": 0.26,
+      "spa_Latn": 0.225,
+      "tel_Telu": 0.22,
+      "vie_Latn": 0.2
+    },
+    "E3": {
+      "ces_Latn": 0.195,
+      "deu_Latn": 0.23,
+      "fra_Latn": 0.18,
+      "hin_Deva": 0.195,
+      "mar_Deva": 0.27,
+      "spa_Latn": 0.265,
+      "tel_Telu": 0.185,
+      "vie_Latn": 0.185
+    },
+    "E4": {
+      "ces_Latn": 0.155,
+      "deu_Latn": 0.18,
+      "fra_Latn": 0.175,
+      "hin_Deva": 0.195,
+      "mar_Deva": 0.25,
+      "spa_Latn": 0.21,
+      "tel_Telu": 0.23,
+      "vie_Latn": 0.22
+    },
+    "casc": {
+      "ces_Latn": 0.375,
+      "deu_Latn": 0.375,
+      "fra_Latn": 0.415,
+      "hin_Deva": 0.24,
+      "mar_Deva": 0.19,
+      "spa_Latn": 0.405,
+      "tel_Telu": 0.23,
+      "vie_Latn": 0.215
+    }
+  },
+  "xnli": {
+    "B0": {
+      "deu_Latn": 0.825,
+      "fra_Latn": 0.835,
+      "hin_Deva": 0.775,
+      "spa_Latn": 0.9,
+      "tur_Latn": 0.815,
+      "vie_Latn": 0.81
+    },
+    "E0": {
+      "deu_Latn": 0.34,
+      "fra_Latn": 0.35,
+      "hin_Deva": 0.345,
+      "spa_Latn": 0.345,
+      "tur_Latn": 0.35,
+      "vie_Latn": 0.36
+    },
+    "E1": {
+      "deu_Latn": 0.4,
+      "fra_Latn": 0.41,
+      "hin_Deva": 0.4,
+      "spa_Latn": 0.46,
+      "tur_Latn": 0.37,
+      "vie_Latn": 0.375
+    },
+    "E1a": {
+      "deu_Latn": 0.38,
+      "fra_Latn": 0.41,
+      "hin_Deva": 0.36,
+      "spa_Latn": 0.41,
+      "tur_Latn": 0.365,
+      "vie_Latn": 0.4
+    },
+    "E2": {
+      "deu_Latn": 0.415,
+      "fra_Latn": 0.44,
+      "hin_Deva": 0.4,
+      "spa_Latn": 0.455,
+      "tur_Latn": 0.38,
+      "vie_Latn": 0.445
+    },
+    "E2a": {
+      "deu_Latn": 0.445,
+      "fra_Latn": 0.425,
+      "hin_Deva": 0.405,
+      "spa_Latn": 0.45,
+      "tur_Latn": 0.4,
+      "vie_Latn": 0.415
+    },
+    "E3": {
+      "deu_Latn": 0.41,
+      "fra_Latn": 0.4,
+      "hin_Deva": 0.39,
+      "spa_Latn": 0.42,
+      "tur_Latn": 0.39,
+      "vie_Latn": 0.41
+    },
+    "E4": {
+      "deu_Latn": 0.41,
+      "fra_Latn": 0.41,
+      "hin_Deva": 0.4,
+      "spa_Latn": 0.445,
+      "tur_Latn": 0.39,
+      "vie_Latn": 0.425
+    },
+    "casc": {
+      "deu_Latn": 0.575,
+      "fra_Latn": 0.635,
+      "hin_Deva": 0.46,
+      "spa_Latn": 0.63,
+      "tur_Latn": 0.4,
+      "vie_Latn": 0.445
+    }
+  },
+  "xstorycloze": {
+    "B0": {
+      "hin_Deva": 0.995,
+      "spa_Latn": 0.995,
+      "tel_Telu": 0.96
+    },
+    "E0": {
+      "hin_Deva": 0.51,
+      "spa_Latn": 0.535,
+      "tel_Telu": 0.54
+    },
+    "E1": {
+      "hin_Deva": 0.71,
+      "spa_Latn": 0.695,
+      "tel_Telu": 0.625
+    },
+    "E1a": {
+      "hin_Deva": 0.645,
+      "spa_Latn": 0.67,
+      "tel_Telu": 0.595
+    },
+    "E2": {
+      "hin_Deva": 0.705,
+      "spa_Latn": 0.665,
+      "tel_Telu": 0.59
+    },
+    "E2a": {
+      "hin_Deva": 0.685,
+      "spa_Latn": 0.68,
+      "tel_Telu": 0.635
+    },
+    "E3": {
+      "hin_Deva": 0.69,
+      "spa_Latn": 0.7,
+      "tel_Telu": 0.58
+    },
+    "E4": {
+      "hin_Deva": 0.69,
+      "spa_Latn": 0.66,
+      "tel_Telu": 0.57
+    },
+    "casc": {
+      "hin_Deva": 0.835,
+      "spa_Latn": 0.87,
+      "tel_Telu": 0.63
+    }
+  }
+}

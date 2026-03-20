@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+
+#SBATCH --job-name=mt_dir-gen    # create a short name for your job
+#SBATCH --nodes=1                # node count
+#SBATCH --ntasks=1               # total number of tasks across all nodes
+#SBATCH --cpus-per-task=8       # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --gpus-per-node=1                # Total number of gpus
+#SBATCH --partition=l40s          # Name of the partition
+#SBATCH --exclude=l06 # L40s on DSAI
+# #SBATCH --partition=gpu-a100          # Name of the partition
+#SBATCH --account=tlippin1
+# #SBATCH --partition=cpu          # Name of the partition
+#SBATCH --mem=64G                # Total memory allocated
+#SBATCH --hint=multithread       # we get logical cores (threads) not physical (cores)
+#SBATCH --time=0:30:00          # total run time limit (HH:MM:SS)
+#SBATCH --array=0-109            # job array index
+#SBATCH --output=slurm_logs_exps/mt_dir-gen_e6_qwen/%a.out   # output file name
+#SBATCH --error=slurm_logs_exps/mt_dir-gen_e6_qwen/%a.out    # error file name
+
+
+echo "### Running $SLURM_JOB_NAME ###"
+
+cd ${SLURM_SUBMIT_DIR}
+
+echo "HOSTNAME: $(hostname)"
+echo
+echo CUDA in ENV:
+env | grep CUDA
+echo
+
+nvidia-smi
+
+module purge
+module load conda
+conda --version
+# module load cuda/10.2
+module load cuda/12.1
+nvcc --version
+
+# Set your conda environment
+source /home/$USER/.bashrc
+conda info --envs
+
+which python
+. "/home/nbafna1/miniconda3/etc/profile.d/conda.sh" && conda deactivate && conda activate genspace
+which python
+
+set -x
+
+# Run some lang_info experiments
+HOME_DIR="/weka/home/nbafna1/projects/llm_language_learning"
+cd ${HOME_DIR}
+
+only_eval=False
+
+languages=("fra_Latn" "spa_Latn" "hin_Deva" "mar_Deva" "deu_Latn" "tur_Latn" "vie_Latn" "tel_Telu" "ces_Latn" "pol_Latn")
+exp_ids=("B0" "E0" "E1a" "E1" "E2a" "E2" "E3" "E4" "E6" "E8" "E9")
+
+
+num_languages=${#languages[@]}
+language_index=$((SLURM_ARRAY_TASK_ID % num_languages))
+language=${languages[$language_index]}
+exp_id_index=$((SLURM_ARRAY_TASK_ID / num_languages))
+exp_id=${exp_ids[$exp_id_index]}
+task_name="mtwmtpp"
+direction="generation"
+max_new_tokens=512
+num_examples=100
+batch_size=1
+prompt_builder_config_file="${HOME_DIR}/experiments/configs_exps/lang_info.json"
+model_key="llama"
+# model_key="qwen7b"
+# use_cipher = False if exp is B0, otherwise True
+if [ "$exp_id" == "B0" ]; then
+    use_cipher=False
+else
+    use_cipher=True
+fi
+
+
+output_dir_all="${HOME_DIR}/mt_outputs/lang_info_${task_name}/${model_key}_dir-${direction}_samples-${num_examples}"
+mkdir -p ${output_dir_all}
+echo "Output directory: ${output_dir_all}"
+
+exp_name="lang-${language}_ps-lang_info_exp-${exp_id}"
+output_file="${output_dir_all}/${exp_name}/output.json"
+results_dir="${output_dir_all}/${exp_name}/results"
+mkdir -p ${results_dir}
+
+echo "--------------------------------"
+echo "Running experiment: ${exp_name}"
+echo "Output file: ${output_file}"
+echo "Results directory: ${results_dir}"
+echo "--------------------------------"
+
+python ${HOME_DIR}/experiments/pipeline.py \
+--language="${language}" \
+--task_name="${task_name}" \
+--direction="${direction}" \
+--max_new_tokens="${max_new_tokens}" \
+--num_examples="${num_examples}" \
+--batch_size="${batch_size}" \
+--prompt_builder_config_file="${prompt_builder_config_file}" \
+--prompt_builder_config_id="${exp_id}" \
+--evaluate_comet=True \
+--evaluate_gemba=False \
+--evaluate_llm_judge=False \
+--use_cipher="${use_cipher}" \
+--model_key="${model_key}" \
+--output_file="${output_file}" \
+--results_dir="${results_dir}" \
+--only_eval="${only_eval}"
