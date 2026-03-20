@@ -1,5 +1,4 @@
-# Rashid: A Cipher-Based Framework for Exploring In-Context Language
-Learning
+# Rashid: A Cipher-Based Framework for Exploring In-Context Language Learning
 
 This repository contains the code for < ICLL paper link >.
 
