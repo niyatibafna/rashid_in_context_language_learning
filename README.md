@@ -1,4 +1,5 @@
-# In-Context Language Learning
+# Rashid: A Cipher-Based Framework for Exploring In-Context Language
+Learning
 
 This repository contains the code for < ICLL paper link >.
 
@@ -13,7 +14,7 @@ This repository contains the code for < ICLL paper link >.
 ## Repository structure
 
 - `src/`: core library code (data, prompts, ciphers, inference, evaluation)
-- `experiments/`: runnable pipelines. Pipelines applying ciphering to inputs, materials, and deciphering to outputs when relevant.
+- `experiments/`: runnable pipelines. Pipelines applying ciphering to inputs, materials, and deciphering to outputs when relevant. Also contains configs for existing ICLL strategies.
   - `pipeline.py`: Running MT in both directions with evaluation options with BLEU, chrF, COMET, GEMBA_MQM, or LLM-as-judge
   - `pipeline_task.py`: task pipeline with accuracy evaluation (e.g., XNLI, MMLU-ProX, XStoryCloze)
   - `pipeline_cascade_task.py`: two-stage cascade using MT (source -> English (using MT pipeline with specified ICL strategy) -> task inference)
@@ -36,7 +37,7 @@ export OPENAI_API_KEY="<your_key>"
 
 ## Typical usage
 
-Run an MT experiment:
+Run inference and evaluation for MT with an existing strategy. 
 
 ```bash
 python experiments/pipeline.py \
@@ -54,6 +55,25 @@ python experiments/pipeline.py \
   --results_dir="outputs/example/results"
 ```
 
+Run an accuracy-based task:
+
+```bash
+python experiments/pipeline_task.py \
+  --language="hin_Deva" \
+  --task_name="xnli" \
+  --direction="comprehension" \
+  --max_new_tokens=256 \
+  --num_examples=16 \
+  --batch_size=8 \
+  --prompt_builder_config_file="experiments/configs_exps/lang_info.json" \
+  --prompt_builder_config_id="E1" \
+  --use_cipher=True \
+  --model_key="gpt-5.1" \
+  --output_file="task_outputs/xnli/output.json" \
+  --results_dir="outputs/xnli/results"
+```
+
+
 ## Configuring inference strategies (`src/build_prompt.py`)
 
 Inference strategy is controlled through prompt construction, implemented in `src/build_prompt.py` (via `get_prompt_builder(...)` and `BuildPromptLexicon`). Strategies are created as  experiment configs (as in `experiments/configs_exps/lang_info.json`) and selected at runtime.
@@ -61,10 +81,10 @@ Inference strategy is controlled through prompt construction, implemented in `sr
 ### In-context language learning strategies available (from `src.build_prompt.py`)
 
 `get_prompt_builder(task, language, cipher_obj, direction, **kwargs)` uses:
-- `task`: task identifier (e.g., `mtfloresplus`, `xnli`, `mcqmmluprox`, `xstorycloze`)
-- `language`: NLLB-style language code for the experiment language
-- `cipher_obj`: cipher instance used by the prompt builder
-- `direction`: `generation` or `comprehension`
+- `task`: task identifier (e.g., `mtwmtpp`, `mtfloresplus`, `xnli`, `mcqmmluprox`, `xstorycloze`)
+- `language`: NLLB-style language code for the experiment language (e.g. `spa_Latn`)
+- `cipher_obj`: cipher instance, instance of class `src.ciphers.Cipher`.
+- `direction`: `generation` or `comprehension`, depending on whether model outputs are in target language (for MT).
 
 Configurable `kwargs` for `BuildPromptLexicon`:
 - `prompt_key`: prompt-builder type (currently must be `lexicon`)
@@ -88,27 +108,10 @@ Configurable `kwargs` for `BuildPromptLexicon`:
    - `--prompt_builder_config_id="E1"`
 3. `pipeline.py` loads the selected config and forwards it to `get_prompt_builder(...)`.
 
-Run an accuracy-based task:
-
-```bash
-python experiments/pipeline_task.py \
-  --language="hin_Deva" \
-  --task_name="xnli" \
-  --direction="comprehension" \
-  --max_new_tokens=256 \
-  --num_examples=16 \
-  --batch_size=8 \
-  --prompt_builder_config_file="experiments/configs_exps/lang_info.json" \
-  --prompt_builder_config_id="E1" \
-  --use_cipher=True \
-  --model_key="gpt-5.1" \
-  --output_file="task_outputs/xnli/output.json" \
-  --results_dir="outputs/xnli/results"
-```
 
 ## Misc
 
-- MT outputs and associated automatic evaluations for all strategies described in the paper for both directions and 3 models are in `outputs_and_results/mt_outputs.zip`. 
+- MT outputs and associated automatic evaluations for all strategies described in the paper for both directions and 3 models are in our [HuggingFace repo](https://huggingface.co/datasets/niyatibafna/rashid_icll_outputs).
 - Task results for all strategies are in `outputs_and_results/task_results.json`.
 - Configs for all strategies described in the paper are in `experiments/configs_exps/lang_info.json`.
 - Run the `topline` experiments on original language inputs without ciphering by using config `B0` and setting `use_cipher=False`. 
@@ -123,4 +126,9 @@ python experiments/pipeline_task.py \
 - **New model backend:** add support in `src/inference.py`.
 - **New metric/evaluator:** implement in `src/evaluation.py` and wire into the relevant pipeline(s).
 
+## Cite
 
+If you use this code, please cite:
+```
+< bib >
+```
