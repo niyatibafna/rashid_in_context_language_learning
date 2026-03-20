@@ -1,7 +1,6 @@
 # In-Context Language Learning
 
-This repository contains the code for <paper>.
-This repo contains the code for 1. Creating substitution ciphers for language 2. Loading and formatting arbitrary tasks 3. Constructing prompts for in-context learning using various materials in language like lexicons, morphological tool outputs, and syntax descriptions, as well as various strategies described in the paper (applying cipher to inputs constructing a unseen language) 4. Performing inference with any HuggingFace model or via API calls to closed-source models 5. Performing task-specific evaluation (deciphering outputs if relevant into source language).
+This repository contains the code for < ICLL paper link >.
 
 ## What this repository provides
 
