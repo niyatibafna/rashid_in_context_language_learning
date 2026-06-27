@@ -1,6 +1,8 @@
 # Rashid: A Cipher-Based Framework for Exploring In-Context Language Learning
+[![Outputs](https://img.shields.io/badge/🤗%20Open%20in-Hugging%20Face-yellow)](https://huggingface.co/datasets/niyatibafna/rashid_icll_outputs)
 
 This repository contains the code for our paper [Rashid: A Cipher-Based Framework for Exploring In-Context Language Learning](https://arxiv.org/abs/2603.22497).
+The outputs for models, tasks, languages, and approaches can be found on HuggingFace.
 
 > While there is growing interest in in-context
 language learning (ICLL) for unseen languages
