@@ -1,8 +1,31 @@
 # Rashid: A Cipher-Based Framework for Exploring In-Context Language Learning
 
-This repository contains the code for < ICLL paper link >.
+This repository contains the code for our paper [Rashid: A Cipher-Based Framework for Exploring In-Context Language Learning](https://arxiv.org/abs/2603.22497).
+
+> While there is growing interest in in-context
+language learning (ICLL) for unseen languages
+with large language models, such languages usually suffer from the lack of NLP tools, data resources, and researcher expertise. This means
+that progress is difficult to assess, the field does
+not allow for easy large-scale experimentation,
+and findings on ICLL are often limited to very
+few languages and tasks. In light of such limitations, we introduce a framework (Rashid)
+for studying ICLL wherein we reversibly cipher
+high-resource languages (HRLs) to construct
+truly unseen languages with access to a wide
+range of resources available for HRLs, unlocking previously impossible exploration of ICLL
+phenomena. We use our framework to assess
+current ICLL methods for machine translation
+with SOTA evaluation tools and manual analysis, explore new directions leveraging otherwise
+expensive resources for improving ICLL, and
+test ICLL strategies for rich downstream tasks
+beyond machine translation. These lines of exploration showcase the possibilities enabled by
+our framework, as well as providing actionable
+insights regarding current performance and future directions in ICLL
 
 ## What this repository provides
+
+This repo provides scripts to cipher a high-resource language and perform inference and evaluation for MT and a range of tasks.
+See the details of our ciphering strategy in our paper.
 
 - Task loading and normalization (`src/task_data.py`)
 - Cipher utilities for artificial unseen language construction (`src/ciphers.py`)
@@ -34,7 +57,7 @@ Set API credentials when using OpenAI-backed inference/evaluation:
 export OPENAI_API_KEY="<your_key>"
 ```
 
-## Typical usage
+## Usage
 
 Run inference and evaluation for MT with an existing strategy. 
 
@@ -129,5 +152,10 @@ Configurable `kwargs` for `BuildPromptLexicon`:
 
 If you use this code, please cite:
 ```
-< bib >
+@article{bafna2026rashid,
+  title={Rashid: A Cipher-Based Framework for Exploring In-Context Language Learning},
+  author={Bafna, Niyati and Shim, Ryan Soh-Eun and Plank, Barbara and Yarowsky, David and Sirin, Hale},
+  journal={arXiv preprint arXiv:2603.22497},
+  year={2026}
+}
 ```
